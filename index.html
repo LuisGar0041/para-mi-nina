@@ -36,32 +36,29 @@
     }
   }
 
-  /* CONTAINER LIBRO RESPONSIVO */
+  /* CONTAINER LIBRO ORIGINAL */
   .book-container {
-    width: 90%;
-    max-width: 820px;
-    height: 85vh;
-    max-height: 520px;
+    width: 820px;
+    height: 520px;
     position: relative;
     perspective: 2000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    transition: transform 0.3s ease;
   }
 
-  /* PORTADA RESPONSIVA */
+  /* PORTADA ORIGINAL REPARADA */
   .cover-front {
     position: absolute;
-    width: 50%;
-    height: 100%;
+    width: 410px;
+    height: 520px;
     left: 0;
+    top: 0;
     background: linear-gradient(135deg, #7a1c1c, #4e0f0f);
     border-radius: 18px 0 0 18px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
     cursor: pointer;
     transform-origin: left center;
     transform-style: preserve-3d;
-    z-index: 200; /* Forzamos que siempre esté por encima de todo al inicio */
+    z-index: 200;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -81,25 +78,23 @@
     transform: rotateY(-140deg);
     opacity: 0;
     pointer-events: none;
-    z-index: 1; /* Pasa al fondo para no estorbar */
   }
 
   .cover-front h1 {
     margin: 0;
     text-shadow: 1px 1px 5px #b71c1c;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
   }
   .cover-front p {
     margin-top: 20px;
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: 0.06em;
   }
 
   /* LIBRO ABIERTO ESTILO CUADERNO */
   .book {
-    width: 100%;
-    height: 100%;
+    width: 820px;
+    height: 520px;
     border-radius: 12px;
     background: #fdf6e3;
     box-shadow: 0 30px 60px rgba(0,0,0,0.6);
@@ -109,13 +104,12 @@
     opacity: 0;
     pointer-events: none;
     position: relative;
-    transition: opacity 0.6s ease;
-    z-index: 50;
   }
 
   .book.visible {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 1s ease 0.6s;
   }
 
   /* RESORTE */
@@ -123,7 +117,7 @@
     position: absolute;
     left: 50%;
     top: 25px;
-    bottom: 65px;
+    bottom: 25px;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
@@ -131,9 +125,9 @@
     z-index: 100;
   }
   .spiral span {
-    width: 15px;
-    height: 15px;
-    border: 2px solid #999;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #999;
     border-radius: 50%;
     background: #eee;
   }
@@ -141,16 +135,15 @@
   /* PAGINAS CON LINEAS */
   .page {
     width: 50%;
-    height: 100%;
-    padding: 40px 30px 70px 30px;
+    padding: 50px 40px 40px 40px;
     box-sizing: border-box;
     position: relative;
     backface-visibility: hidden;
     background: repeating-linear-gradient(
       to bottom,
       #fdf6e3,
-      #fdf6e3 34px,
-      #ccc 35px
+      #fdf6e3 35px,
+      #ccc 36px
     );
     overflow-y: auto;
   }
@@ -158,12 +151,12 @@
   .page h2 {
     margin-top: 0;
     color: red;
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: 2rem;
     user-select: none;
   }
 
-  .page p, .typing-text {
-    font-size: clamp(15px, 2vw, 18px);
+  .page p {
+    font-size: 18px;
     line-height: 1.7;
     margin-top: 10px;
     white-space: pre-wrap;
@@ -173,7 +166,7 @@
 
   .page .photo {
     width: 100%;
-    height: 220px;
+    height: 300px;
     border-radius: 12px;
     background-size: cover;
     background-position: center;
@@ -189,20 +182,19 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 30px;
+    padding: 0 40px;
     box-sizing: border-box;
     user-select: none;
-    z-index: 110;
   }
   button {
     background: #c62828;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 22px;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 700;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-size: 1.1rem;
     box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     transition: background-color 0.3s;
   }
@@ -217,47 +209,44 @@
 
   /* ANIMACION ESCRITURA */
   .typing-text {
+    white-space: pre-wrap;
     overflow-wrap: break-word;
     border-right: 2px solid red;
     animation: blinkCursor 1s step-end infinite;
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.6;
+    font-style: italic;
+    font-family: 'Shadows Into Light', cursive;
   }
   @keyframes blinkCursor {
     50% { border-color: transparent; }
   }
 
-  /* RESPONSIVO PARA CELULARES */
-  @media (max-width: 768px) {
+  /* ADAPTACIÓN AUTOMÁTICA INTELIGENTE SEGÚN LA PANTALLA */
+  @media (max-width: 860px) {
     .book-container {
-      width: 95%;
-      height: 85vh;
+      transform: scale(0.85); /* Encoge todo proporcionalmente sin romper las medidas originales */
     }
-    .cover-front {
-      width: 100%;
-      border-radius: 18px;
+  }
+  @media (max-width: 700px) {
+    .book-container {
+      transform: scale(0.7);
     }
-    .spiral {
-      display: none;
+  }
+  @media (max-width: 580px) {
+    .book-container {
+      transform: scale(0.55);
     }
-    /* Cambiado para evitar conflictos de capas cuando la carta está cerrada */
-    .book.visible {
-      display: block;
-      overflow-y: auto;
+  }
+  @media (max-width: 450px) {
+    .book-container {
+      transform: scale(0.43);
     }
-    .page {
-      width: 100%;
-      height: auto;
-      min-height: 50%;
-      padding-bottom: 40px;
-    }
-    .controls {
-      position: sticky;
-      bottom: 0;
-      background: #fdf6e3;
-      padding: 15px 30px;
-      box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
-    }
-    .page .photo {
-      height: 180px;
+  }
+  @media (max-width: 360px) {
+    .book-container {
+      transform: scale(0.38);
     }
   }
 </style>
@@ -393,4 +382,20 @@ Siempre estás en mis pensamientos💭 y mi deseo es que todos tus sueños se ha
   });
 
   // Navegación
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex < pages.length - 1) {
+      currentIndex++;
+      renderPage(currentIndex);
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderPage(currentIndex);
+    }
+  });
+</script>
+</body>
+</html>
 
