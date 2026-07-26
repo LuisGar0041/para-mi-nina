@@ -61,7 +61,7 @@
     cursor: pointer;
     transform-origin: left center;
     transform-style: preserve-3d;
-    z-index: 30;
+    z-index: 200; /* Forzamos que siempre esté por encima de todo al inicio */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -81,6 +81,7 @@
     transform: rotateY(-140deg);
     opacity: 0;
     pointer-events: none;
+    z-index: 1; /* Pasa al fondo para no estorbar */
   }
 
   .cover-front h1 {
@@ -109,6 +110,7 @@
     pointer-events: none;
     position: relative;
     transition: opacity 0.6s ease;
+    z-index: 50;
   }
 
   .book.visible {
@@ -236,7 +238,8 @@
     .spiral {
       display: none;
     }
-    .book {
+    /* Cambiado para evitar conflictos de capas cuando la carta está cerrada */
+    .book.visible {
       display: block;
       overflow-y: auto;
     }
@@ -374,16 +377,10 @@ Siempre estás en mis pensamientos💭 y mi deseo es que todos tus sueños se ha
   }
 
   function renderPage(index) {
-    // Renderizar página izquierda
     leftPage.innerHTML = `<p>${pages[index].leftText.replace(/\n/g, '<br>')}</p>`;
-    
-    // Renderizar foto
     photoDiv.style.backgroundImage = `url('${pages[index].photo}')`;
-    
-    // Animación de escritura en la derecha
     typeText(pages[index].rightText, typingTextDiv, 40);
 
-    // Actualizar botones
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === pages.length - 1;
   }
@@ -396,6 +393,4 @@ Siempre estás en mis pensamientos💭 y mi deseo es que todos tus sueños se ha
   });
 
   // Navegación
-  nextBtn.addEventListener("click", () => {
-    if (currentIndex < pages.length - 1) {
-      currentIndex++;
+
