@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carta Navideña Estilo Cuaderno 🎄</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #0b3d91 0%, #020024 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    perspective: 1500px;
+    color: #4e342e;
+  }
+
+  /* NIEVE */
+  .snow {
+    position: fixed;
+    top: -10px;
+    color: white;
+    animation: fall linear infinite;
+    opacity: 0.8;
+    user-select: none;
+    pointer-events: none;
+  }
+  @keyframes fall {
+    to {
+      transform: translateY(110vh);
+    }
+  }
+
+  /* CONTAINER LIBRO */
+  .book-container {
+    width: 820px;
+    height: 520px;
+    position: relative;
+    perspective: 2000px;
+  }
+
+  /* PORTADA */
+  .cover-front {
+    position: absolute;
+    width: 410px;
+    height: 520px;
+    background: linear-gradient(135deg, #7a1c1c, #4e0f0f);
+    border-radius: 18px 0 0 18px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fdf6e3;
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+    padding: 20px;
+    user-select: none;
+  }
+
+  .cover-front h1 {
+    margin: 0;
+    text-shadow: 1px 1px 5px #b71c1c;
+  }
+  .cover-front p {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  /* LIBRO ABIERTO ESTILO CUADERNO */
+  .book {
+    width: 820px;
+    height: 520px;
+    border-radius: 12px;
+    background: #fdf6e3;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    display: flex;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    opacity: 0;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .book.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 1s ease 0.6s;
+  }
+
+  /* RESORTE */
+  .spiral {
+    position: absolute;
+    left: 50%;
+    top: 25px;
+    bottom: 25px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    z-index: 100;
+  }
+  .spiral span {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #999;
+    border-radius: 50%;
+    background: #eee;
+  }
+
+  /* PAGINAS CON LINEAS */
+  .page {
+    width: 50%;
+    padding: 50px 40px 40px 40px;
+    box-sizing: border-box;
+    position: relative;
+    backface-visibility: hidden;
+    background: repeating-linear-gradient(
+      to bottom,
+      #fdf6e3,
+      #fdf6e3 35px,
+      #ccc 36px
+    );
+    overflow-y: auto;
+  }
+
+  .page h2 {
+    margin-top: 0;
+    color: red; /* encabezados en rojo */
+    font-size: 2rem;
+    user-select: none;
+  }
+
+  .page p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    font-style: italic; /* cursiva */
+    font-family: 'Shadows Into Light', cursive;
+  }
+
+  .page .photo {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    user-select: none;
+  }
+
+  /* CONTROLES */
+  .controls {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+    box-sizing: border-box;
+    user-select: none;
+  }
+  button {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    transition: background-color 0.3s;
+  }
+  button:hover:not(:disabled) {
+    background: #e53935;
+  }
+  button:disabled {
+    background: #999;
+    cursor: default;
+    box-shadow: none;
+  }
+
+  /* ANIMACION ESCRITURA */
+  .typing-text {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    border-right: 2px solid red;
+    animation: blinkCursor 1s step-end infinite;
+    margin-top: 20px;
+    font-size: 18px;
+    line-height: 1.6;
+    font-style: italic; /* cursiva */
+    font-family: 'Shadows Into Light', cursive;
+  }
+  @keyframes blinkCursor {
+    50% {
+      border-color: transparent;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- NIEVE -->
+<script>
+  function snow() {
+    const s = document.createElement("div");
+    s.className = "snow";
+    s.innerHTML = "❄";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.fontSize = (10 + Math.random() * 20) + "px";
+    s.style.animationDuration = (4 + Math.random() * 5) + "s";
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 9000);
+  }
+  setInterval(snow, 200);
+</script>
+
+<!-- MÚSICA -->
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/12/06/audio_09c2a50f9b.mp3?filename=christmas-song-13231.mp3" type="audio/mpeg" />
+  Tu navegador no soporta audio.
+</audio>
+
+<div class="book-container">
+  <!-- Portada que se abre -->
+  <div class="cover-front" id="coverFront" title="Haz click para abrir la carta">
+    <h1>Para mi Gordita 🎄</h1>
+    <p>Abre esta carta con amor ❤️</p>
+  </div>
+
+  <!-- Libro abierto -->
+  <div class="book" id="book">
+    <div class="spiral">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Página izquierda (texto) -->
+    <div class="page" id="leftPage"></div>
+
+    <!-- Página derecha (foto + texto) -->
+    <div class="page" id="rightPage">
+      <div class="photo" id="photo"></div>
+      <div class="typing-text" id="typingText"></div>
+    </div>
+
+    <!-- Controles -->
+    <div class="controls">
+      <button id="prevBtn" disabled>◀ Anterior</button>
+      <button id="nextBtn">Siguiente ▶</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pages = [
+    {
+      leftText: `🎄Gordita 🎄
+
+Esta carta es para recordarte lo importante que eres para mí ❤️...Gracias por existir Gordita❤️
+Espero que esta Navidad 🎄 nos traiga aún más momentos inolvidables juntos🫂. Que cada día que pase nuestra alegría crezca y nuestro amor se fortalezca❤️‍🩹, de igual manera te pido perdon por todo lo malo que e hecho😓, jamas es mi intencion hacerte sentir mal, te prometo que cambiare para bien❤️‍🩹.`,
+      photo: "amo.jpeg",
+      rightText: "Esta foto representa nuestra alegría juntos 😍."
+    },
+    {
+      leftText: `✨ Gracias ✨
+
+Gracias por cada sonrisa😁, por cada abrazo🫂 y cada momento ❤️.
+
+Eres mi mejor regalo 💝.
+
+No importa cuántos años⌛ pasen, cada instante a tu lado es un tesoro que guardo con todo mi corazón❤️.`,
+      photo: "amo5.jpg",
+      rightText: "Un recuerdo imborrable de nuestros mejores momentos🥰."
+    },
+    {
+      leftText: `❤️ Feliz Navidad ❤️
+
+Que esta Navidad esté llena de amor❤️‍🩹, paz y sueños cumplidos🍀.
+
+Te amo❤️, mi Gordita hermosa 🥰😍✨
+
+Siempre estás en mis pensamientos💭 y mi deseo es que todos tus sueños se hagan realidad. Feliz Navidad🌲, mi amor🥰.`,
+      photo: "amo3.jpeg",
+      rightText: "Quiero todo de ti, para siempre♾️, tu y yo❤️ cada dia."
+    }
+  ];
+
+  const coverFront = document.getElementById("coverFront");
+  const book = document.getElementById("book");
+  const leftPage = document.getElementById("leftPage");
+  const rightPage = document.getElementById("rightPage");
+  const photoDiv = document.getElementById("photo");
+  const typingTextDiv = document.getElementById("typingText");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  let currentIndex = 0;
+  let typingInterval = null;
+
+  function typeText(text, element, speed = 30, callback = null) {
+    element.textContent = "";
+    let i = 0;
+    clearInterval(typingInterval);
+    typingInterval = setInterval(() => {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(typingInterval);
+        if (callback) callback();
+      }
+    }, speed);
+  }
+
+  function showPage(index) {
+    leftPage.innerHTML = `<h2>${pages[index].leftText.split('\n')[0]}</h2>` +
+                         `<p>${pages[index].leftText.split('\n').slice(1).join('\n')}</p>`;
+
+    photoDiv.style.backgroundImage = `url('${pages[index].photo}')`;
+    typingTextDiv.textContent = "";
+    typeText(pages[index].rightText, typingTextDiv);
+
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === pages.length - 1;
+  }
+
+  coverFront.addEventListener("click", () => {
+    coverFront.style.transition = "transform 1s ease-in-out";
+    coverFront.style.transform = "rotateY(-180deg)";
+    setTimeout(() => {
+      coverFront.style.display = "none";
+      book.classList.add("visible");
+      showPage(currentIndex);
+    }, 1000);
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex < pages.length - 1) {
+      currentIndex++;
+      showPage(currentIndex);
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      showPage(currentIndex);
+    }
+  });
+</script>
+
+</body>
+</html>
